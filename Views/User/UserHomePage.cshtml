@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor Accessor
+@{
+    Layout = "User_Layout";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container py-5 ">
+    <img src="~/Images/Desktop_-_Collection_Banners-21.webp"  class="img-fluid img-thumbnail" />
+    <div class="row justify-content-center mt-5 ">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold">Urban Threads – Where Style Meets the Street</h1>
+            <p class="lead mt-4">
+                Step into the world of <span class="highlight">Urban Threads</span>, your ultimate destination for trend-setting fashion that blends city vibes with modern flair.
+                Whether you're chasing the latest streetwear, timeless essentials, or statement pieces, we’ve got your wardrobe covered.
+            </p>
+            <p>
+                At <span class="highlight">Urban Threads</span>, we believe clothing is more than fabric—it's an expression of identity.
+                Our carefully curated collections are designed to keep you effortlessly stylish, confident, and always ahead of the curve.
+            </p>
+            <div class="my-4">
+                <p>🧥 <strong>Fashion-forward apparel</strong></p>
+                <p>👖 <strong>Comfort meets design</strong></p>
+                <p>👟 <strong>Urban-inspired essentials for every lifestyle</strong></p>
+            </div>
+            <p class="fs-5">Join the Urban Threads movement. Because great style starts here.</p>
+        </div>
+    </div>
+</div>
+
+
+<form asp-controller="User" asp-action="GetProduct" method="post">
+
+</form>

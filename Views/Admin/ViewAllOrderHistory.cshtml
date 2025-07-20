@@ -1,0 +1,111 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Order History of All Custmber";
+    Layout = "Admin_Layout";
+}
+
+@foreach(var order in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>Order ID : </strong> @order.Id |
+            <strong>Date : </strong> @order.OrderDate.ToString("g") |
+            <strong>Status : </strong> <span class="badge bg-info">@order.Status</span>
+            <div class="text-end float-end">
+                @if (order.Status == OrderStatus.Processing)
+                {
+                    <form asp-action="_OrderStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <input type="hidden" name="status" value="Shipped" />
+                        <button type="submit" class="btn btn-success btn-sm">Shipped </button>
+                    </form>
+
+                    <form asp-action="_OrderStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <input type="hidden" name="status" value="Cancelled" />
+                        <button type="submit" class="btn btn-danger btn-sm">Cancelled </button>
+                    </form>
+                }
+                else if(order.Status == OrderStatus.Delivered){
+                    @* <form asp-action="OrderDetails" method="post" style="display:inline;">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <button type="submit" class="btn btn-success btn-sm">Details</button>
+                    </form> *@
+                    <span class="badge bg-success">Order is @order.Status</span>
+                }
+
+                else
+                {
+                    <span class="badge bg-danger">Payment is @order.Status</span>
+                }
+                
+
+            </div>
+        </div> 
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead >
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </thead>
+                <tbody>
+                    @foreach (var items in order.OrderItems)
+                    {
+                        <tr>
+                            <td>@items.Product?.Name</td>
+                            <td>@items.UnitPrice.ToString("C")</td>
+                            <td>@items.Quantity</td>
+                            <td>@(items.UnitPrice* items.Quantity)</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <div class="text-end">
+                <strong>Total Amount:</strong> @order.TotalAmount.ToString("C")
+            </div>
+        </div>
+
+    </div>
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                @if (TempData["ShowModal"] != null)
+                {
+                    <div class="alert alert-success">
+                        Order is SuccessFully  @TempData["OrderStatus"] ! <br />
+                        Order Id : @TempData["OrderId"]
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var showModal = '@TempData["ShowModal"]';
+            if (showModal === 'True') {
+                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                myModal.show();
+            }
+        });
+    </script>
+}

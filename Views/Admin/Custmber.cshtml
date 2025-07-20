@@ -1,0 +1,41 @@
+﻿@model List<Customer>
+@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Admin Home Page";
+}
+
+<div class="text-center">
+    <div class="container mt-5">
+        <h2 class="display-4">All Customer List</h2>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>CustomerId</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CustomerId</td>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <th>
+                            <a asp-action="EditCust" asp-controller="Admin" asp-route-id="@item.CustomerId">Edit</a>
+                        </th>
+                        <th>
+                            <a asp-action="DeleteCust" asp-controller="Admin" asp-route-id="@item.CustomerId">Delete</a>
+                        </th>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@model OrderItem
+@{
+    ViewData["Title"] = "Order Success Model";
+    Layout = "User_Layout";
+
+    var orderId = TempData["OderID"] ;
+}
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h4>Your order has been placed successfully!</h4>
+        <h4>Oder Id : @orderId</h4>
+        <a href="@Url.Action("Shop", "User")" class="btn btn-primary mt-3">Continue Shopping</a>
+        <a asp-controller="User" asp-action="Pay" asp-route-orderId="@orderId" class="btn btn-primary float-end">Pay Now</a>
+
+    </div>
+</div>

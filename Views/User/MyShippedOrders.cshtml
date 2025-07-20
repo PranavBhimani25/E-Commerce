@@ -1,0 +1,81 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Shipped Orders";
+    Layout = "User_Layout";
+    var x = "x";
+}
+
+
+<h2>My Shipped Orders</h2>
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Items</th>
+            <th>Product is Delivered</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.TotalAmount.ToString("C")</td>
+                <td>@order.Status</td>
+                <td class="text-start">
+                    <ul>
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product.Name (@x@item.Quantity)</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <form asp-action="ProductDelivered" method="post">
+                        <input type="hidden" name="orderid" value="@order.Id" />
+                        <button type="submit" class="btn btn-success">✅ Product Delivered</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thanks For Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success">
+                    Good Day to you ☺️
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var showModal = '@TempData["ShowModal"]';
+            if (showModal === 'True') {
+                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                myModal.show();
+            }
+        });
+    </script>
+}

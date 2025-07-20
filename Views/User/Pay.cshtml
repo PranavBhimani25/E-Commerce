@@ -1,0 +1,33 @@
+﻿@model CodeTech_Task_1.Models.Payment
+@{
+    ViewData["Title"] = "Payment";
+    Layout = "User_Layout";
+    var order = ViewBag.Order as CodeTech_Task_1.Models.Order;
+}
+
+<h2>Make Payment for Order #@order?.Id</h2>
+
+<form asp-controller="User" asp-action="Pay" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="OrderId" />
+
+    <div class="mb-3">
+        <label asp-for="Amount" class="form-label"></label>
+        <input asp-for="Amount" class="form-control" readonly />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Method" class="form-label">Payment Method</label>
+        <select asp-for="Method" class="form-select" asp-items="Html.GetEnumSelectList<PaymentMethod>()">
+            <option value="">-- Select Payment Method --</option>
+        </select>
+        <span asp-validation-for="Method" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Pay Now</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

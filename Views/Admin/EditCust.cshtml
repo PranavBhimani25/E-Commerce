@@ -1,0 +1,37 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Edit Customer";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Edit Customer</h1>
+
+</div>
+
+<form asp-controller="Admin" asp-action="EditCustmber" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label asp-for="CustomerId"></label>
+        <input asp-for="CustomerId" class="form-control" readonly />
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Update</button>
+    <a href="@Url.Action("Custmber", "Admin")" class="btn btn-secondary mt-3">Cancel</a>
+
+</form>
+
